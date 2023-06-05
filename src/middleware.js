@@ -10,8 +10,9 @@ export async function middleware(req) {
   } = await supabase.auth.getSession();
   if (!session && (pathname === "/cart" || pathname === "/checkout")) {
     return NextResponse.redirect(new URL("/login", req.url));
-  } else if (session && pathname === "/login") {
-    return NextResponse.redirect(new URL("/", req.url));
   }
+  // else if (session && pathname === "/login") {
+  //   return NextResponse.redirect(new URL("/", req.url));
+  // }
   return res;
 }

@@ -1,47 +1,49 @@
-"use client";
+import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
+import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+export default async function Login() {
+  const handleSignUp = async (formData) => {
+    "use server";
+    const email = formData.get("email");
+    const password = formData.get("password");
 
-export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const router = useRouter();
-  const supabase = createClientComponentClient();
-
-  const handleSignUp = async () => {
+    const supabase = createServerActionClient({ cookies });
     await supabase.auth.signUp({
       email,
       password,
     });
-    router.refresh();
+
+    revalidatePath("/");
   };
 
-  const handleSignIn = async () => {
-    const { data, error } = await supabase.auth.signInWithPassword({
+  const handleSignIn = async (formData) => {
+    "use server";
+    const email = formData.get("email");
+    const password = formData.get("password");
+    const supabase = createServerActionClient({ cookies });
+    await supabase.auth.signInWithPassword({
       email,
       password,
     });
-    console.log(data, error);
-    router.push("/");
+
+    revalidatePath("/");
+  };
+
+  const handleSignOut = async () => {
+    "use server";
+    const supabase = createServerActionClient({ cookies });
+    await supabase.auth.signOut();
+    revalidatePath("/");
   };
 
   return (
-    <>
-      <input
-        name="email"
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}
-      />
-      <input
-        type="password"
-        name="password"
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}
-      />
-      <button onClick={handleSignUp}>Sign up</button>
-      <button onClick={handleSignIn}>Sign in</button>
-    </>
+    <form action={handleSignUp}>
+      <input name="email" />
+      <input type="password" name="password" />
+      <button>Sign up</button>
+      <button formAction={handleSignIn}>Sign in</button>
+      <button formAction={handleSignOut}>Sign out</button>
+    </form>
   );
 }
