@@ -54,6 +54,10 @@
   position: absolute;
   right: 1.5rem;
   top: 1.5rem;
+  color: black;
+  background-color: #9df2ee;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
 }
 
 .card-price {

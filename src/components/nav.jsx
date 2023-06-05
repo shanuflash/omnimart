@@ -1,9 +1,12 @@
+import Link from "next/link";
 import styles from "../styles/nav.module.css";
 
 const nav = () => {
   return (
     <nav className={styles.nav}>
-      <div className={styles.logo}>OMNIMART</div>
+      <Link href="/" className={styles.logo}>
+        OMNIMART
+      </Link>
       <div className={styles.buttons}>
         <svg
           stroke="currentColor"

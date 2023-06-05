@@ -1,5 +1,6 @@
 import Image from "next/image";
 import styles from "../styles/products.module.css";
+import Link from "next/link";
 
 const products = async () => {
   const data = await fetch("https://fakestoreapi.com/products");
@@ -10,8 +11,12 @@ const products = async () => {
       <div className={styles.items}>
         {products?.map((product) => {
           return (
-            <div className={styles.card} key={product.id}>
-              <Image
+            <Link
+              href={`product/${product.id}`}
+              className={styles.card}
+              key={product.id}
+            >
+              {/* <Image
                 src={product.image}
                 width={0}
                 height={0}
@@ -24,11 +29,11 @@ const products = async () => {
                   width: "90%",
                   objectFit: "contain",
                 }}
-              />
+              /> */}
               <div className={styles["card-title"]}>{product.title}</div>
-              <div className={styles["card-price"]}>{product.price}</div>
+              <div className={styles["card-price"]}>${product.price}</div>
               <div className={styles["card-category"]}>{product.category}</div>
-            </div>
+            </Link>
           );
         })}
       </div>
