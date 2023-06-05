@@ -27,11 +27,6 @@ export default function Login() {
     router.push("/");
   };
 
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    router.refresh();
-  };
-
   return (
     <>
       <input
@@ -47,7 +42,6 @@ export default function Login() {
       />
       <button onClick={handleSignUp}>Sign up</button>
       <button onClick={handleSignIn}>Sign in</button>
-      <button onClick={handleSignOut}>Sign out</button>
     </>
   );
 }

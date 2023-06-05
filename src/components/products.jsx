@@ -7,7 +7,7 @@ const products = async () => {
   const products = await data.json();
   return (
     <div className={styles.products}>
-      <div className={styles.title}>Products</div>
+      {/* <div className={styles.title}>Products</div> */}
       <div className={styles.items}>
         {products?.map((product) => {
           return (
