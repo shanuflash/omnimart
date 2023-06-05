@@ -1,0 +1,32 @@
+@font-face {
+  font-family: "Montserrat Light Alt1";
+  src: url("./fonts/MontserratAlt1-Light.otf");
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #9df2ee;
+}
+
+.logo {
+  font-family: "Montserrat Light Alt1";
+  font-size: 2rem;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  border: 1px solid #9df2ee;
+  border-radius: 1rem;
+  padding: 0.3rem 0.8rem;
+}
