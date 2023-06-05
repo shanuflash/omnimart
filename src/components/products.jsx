@@ -16,23 +16,23 @@ const products = async () => {
               className={styles.card}
               key={product.id}
             >
-              {/* <Image
+              <div className={styles["card-category"]}>{product.category}</div>
+              <Image
                 src={product.image}
                 width={0}
                 height={0}
                 sizes="100vw"
                 style={{
-                  position: "absolute",
-                  zIndex: "2",
-                  height: "80%",
-                  top: "10%",
-                  width: "90%",
+                  height: "70%",
+                  width: "100%",
                   objectFit: "contain",
+                  alignSelf: "center",
                 }}
-              /> */}
-              <div className={styles["card-title"]}>{product.title}</div>
-              <div className={styles["card-price"]}>${product.price}</div>
-              <div className={styles["card-category"]}>{product.category}</div>
+              />
+              <div className="footer">
+                <div className={styles["card-title"]}>{product.title}</div>
+                <div className={styles["card-price"]}>${product.price}</div>
+              </div>
             </Link>
           );
         })}

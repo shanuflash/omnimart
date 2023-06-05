@@ -26,7 +26,9 @@
   display: flex;
   align-items: center;
   gap: 0.7rem;
-  border: 1px solid #9df2ee;
+  /* border: 1px solid #9df2ee; */
+  background-color: #9df2ee;
+  color: black;
   border-radius: 1rem;
   padding: 0.3rem 0.8rem;
 }
