@@ -3,6 +3,7 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 export default async function Login() {
+  //todo styling
   const handleSignUp = async (formData) => {
     "use server";
     const email = formData.get("email");

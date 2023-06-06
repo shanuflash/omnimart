@@ -3,27 +3,40 @@ import styles from "@/styles/product.module.css";
 import Image from "next/image";
 import mongoose from "mongoose";
 import { onmimartSchema } from "@/db/schema.js";
+import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 
 const page = async ({ params }) => {
   const id = params.id;
   const data = await fetch(`https://fakestoreapi.com/products/${id}`);
   const product = await data.json();
   mongoose.connect(process.env.NEXT_PUBLIC_MONGODB_URI);
-  const db = mongoose.connection;
-  db.once("open", () => {
-    console.log("connected to database");
-  });
 
-  const cart = async () => {
+  const cart = async (formData) => {
     "use server";
+    // // JSON.Stringify(formData);
+    // // const count = formData.get("count");
+    // console.log("formData");
+    // console.log(JSON.stringify(formData));
 
+    const supabase = createServerActionClient({ cookies });
+    const { data: user } = await supabase.auth.getSession();
     const Data = mongoose.model("data", onmimartSchema);
-    const addCart = new Data({
-      email: "test@test.com",
-      cart: ["ezzz"],
-    });
-    addCart.save();
-    console.log("cart");
+    const oldData = await Data.findOne({ email: user.session.user.email });
+    if (!oldData) {
+      const newData = new Data({
+        email: user.session.user.email,
+        cart: [],
+      });
+      newData.cart[id] = 1;
+      return await newData.save();
+    }
+    if (oldData.cart[id]) {
+      oldData.cart[id] += 1;
+    } else {
+      oldData.cart[id] = 1;
+    }
+    return await oldData.save();
   };
 
   return (
@@ -37,12 +50,25 @@ const page = async ({ params }) => {
           alt={product.title}
         />
       </div>
-
       <div className={styles.details}>
         <div className={styles.title}>{product.title}</div>
+        <div className={styles.rating}>
+          <span className={styles.star}>{product.rating.rate}&#9733;</span>{" "}
+          {product.rating.count} Ratings
+        </div>
         <div className={styles.price}>${product.price}</div>
         <div className={styles.description}>{product.description}</div>
         <form action={cart}>
+          <span className={styles.quantity}>
+            Quantity:{" "}
+            <select className={styles["count-select"]} name="count" id="count">
+              {[...Array(10)].map((_, i) => (
+                <option key={i} value={i + 1}>
+                  {i + 1}
+                </option>
+              ))}
+            </select>
+          </span>{" "}
           <button type="submit" className={styles["add-to-cart"]}>
             Add to Cart
           </button>

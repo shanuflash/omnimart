@@ -2,7 +2,6 @@ import "../styles/globals.css";
 import { Montserrat } from "next/font/google";
 import Nav from "@/components/nav";
 import Providers from "@/redux/provider";
-import SupabaseProvider from "./supabase-provider";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -16,10 +15,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={montserrat.className}>
         <Providers>
-          <SupabaseProvider>
-            <Nav />
-            {children}
-          </SupabaseProvider>
+          <Nav />
+          {children}
         </Providers>
       </body>
     </html>
