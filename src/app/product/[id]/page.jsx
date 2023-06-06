@@ -14,11 +14,7 @@ const page = async ({ params }) => {
 
   const cart = async (formData) => {
     "use server";
-    // // JSON.Stringify(formData);
-    // // const count = formData.get("count");
-    // console.log("formData");
-    // console.log(JSON.stringify(formData));
-
+    const count = formData.get("count") || 1;
     const supabase = createServerActionClient({ cookies });
     const { data: user } = await supabase.auth.getSession();
     const Data = mongoose.model("data", onmimartSchema);
@@ -28,13 +24,13 @@ const page = async ({ params }) => {
         email: user.session.user.email,
         cart: [],
       });
-      newData.cart[id] = 1;
+      newData.cart[id] = count;
       return await newData.save();
     }
     if (oldData.cart[id]) {
-      oldData.cart[id] += 1;
+      oldData.cart[id] += count;
     } else {
-      oldData.cart[id] = 1;
+      oldData.cart[id] = count;
     }
     return await oldData.save();
   };
